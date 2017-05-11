@@ -1,3 +1,0 @@
-package: github.com/treeder/dockergo
-import:
-- package: github.com/gorilla/mux
