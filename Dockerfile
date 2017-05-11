@@ -1,11 +1,14 @@
-FROM iron/go:dev
-
-WORKDIR /app
+FROM golang
 
 ENV SRC_DIR=/go/src/github.com/endigo/go-weather-api
 
 ADD . $SRC_DIR
 
-RUN cd $SRC_DIR; go build -o main; cp main /app/
+RUN go get -u github.com/gorilla/mux
+RUN go install github.com/endigo/go-weather-api
 
-CMD ["./main"]
+ENTRYPOINT /go/bin/go-weather-api
+
+# CMD ["./main"]
+
+EXPOSE 8080
