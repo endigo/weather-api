@@ -1,7 +1,11 @@
-FROM golang:latest
+FROM iron/go:dev
 
-COPY . /go/src/app
-RUN go get -d -v
-RUN go install -v
+WORKDIR /app
 
-CMD ["app"]
+ENV SRC_DIR=/go/src/github.com/endigo/go-weather-api
+
+ADD . $SRC_DIR
+
+RUN cd $SRC_DIR; go build -o main; cp main /app/
+
+CMD ["./main"]
