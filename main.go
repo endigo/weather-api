@@ -1,14 +1,16 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"encoding/json"
+	"encoding/xml"
 
+	"github.com/go-redis/redis"
 	"github.com/gorilla/mux"
 )
 
@@ -42,6 +44,7 @@ func (c City) String() string {
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", Index)
+	router.HandleFunc("/api/v1/weather", Index)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
@@ -52,7 +55,48 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(datas)
 }
 
+func GetRedisClient() *redis.Client {
+	client := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	pong, err := client.Ping().Result()
+	fmt.Println(pong, err)
+
+	return client
+}
+
 func Parse() Data {
+	const redisKey = "data"
+	client := GetRedisClient()
+	var b []byte
+	val, err := client.Get(redisKey).Result()
+
+	if err == redis.Nil {
+		b = Read()
+		err := client.Set(redisKey, b, 8*time.Hour).Err() // 8 цаг тутамд шинэчлэнэ.
+
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else if err != nil {
+		log.Fatal(err)
+	} else {
+		b = []byte(val)
+	}
+
+	var q Data
+	xml.Unmarshal(b, &q)
+
+	return q
+}
+
+func Read() []byte {
+	// Ус, цаг уурын хүрээлэнгээс зөвхөн xml формат бүхий API гаргаж өгсөн.
+	// Энэ API нь xml -> json болгон хөрвүүлэх зорилготой.
+	// Мөн хурдан байхаар шийдэгдсэн
 	res, err := http.Get("http://tsag-agaar.gov.mn/forecast_xml")
 
 	if err != nil {
@@ -66,8 +110,5 @@ func Parse() Data {
 		log.Fatal(err)
 	}
 
-	var q Data
-	xml.Unmarshal(b, &q)
-
-	return q
+	return b
 }
