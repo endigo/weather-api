@@ -53,7 +53,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	datas := Parse()
 
 	// Set header
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json;charset=utf-8")
 
 	json.NewEncoder(w).Encode(datas)
 }
