@@ -54,7 +54,8 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 	// Set header
 	w.Header().Set("Content-Type", "application/json;charset=utf-8")
-
+	// allow cross domain AJAX requests
+    	w.Header().Set("Access-Control-Allow-Origin", "*")
 	json.NewEncoder(w).Encode(datas)
 }
 
