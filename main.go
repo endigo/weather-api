@@ -52,16 +52,21 @@ func main() {
 func Index(w http.ResponseWriter, r *http.Request) {
 	datas := Parse()
 
+	// Set header
+	w.Header().Set("Content-Type", "application/json")
+
 	json.NewEncoder(w).Encode(datas)
 }
 
 func GetRedisClient() *redis.Client {
+	// Connection for redis
 	client := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "",
 		DB:       0,
 	})
 
+	// Test connection to redis
 	pong, err := client.Ping().Result()
 	fmt.Println(pong, err)
 
@@ -76,7 +81,7 @@ func Parse() Data {
 
 	if err == redis.Nil {
 		b = Read()
-		err := client.Set(redisKey, b, 8*time.Hour).Err() // 8 цаг тутамд шинэчлэнэ.
+		err := client.Set(redisKey, b, 4*time.Hour).Err() // 4 цаг тутамд шинэчлэнэ.
 
 		if err != nil {
 			log.Fatal(err)
