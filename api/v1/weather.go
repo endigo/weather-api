@@ -44,6 +44,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json;charset=utf-8")
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Cache-Control", "s-maxage=1800")
 	json.NewEncoder(w).Encode(datas)
 }
 
