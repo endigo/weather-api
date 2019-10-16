@@ -1,0 +1,13 @@
+{
+  "name": "weather",
+  "version": 2,
+  "public": false,
+  "env": {
+    "ROOT_URL": "https://weather.endigo.now.sh"
+  },
+  "build": {
+    "env": {
+      "ROOT_URL": "https://weather.endigo.now.sh"
+    }
+  }
+}
