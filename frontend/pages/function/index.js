@@ -9,11 +9,19 @@ const FunctionList = () => {
   const [cities, setCities] = React.useState([]);
   const [isLoading, setLoading] = React.useState(true);
 
+  // componentDidMount
+  // componentWillUnmount
+  // componentUpdate
   React.useEffect(() => {
     axios.get("/api/cities").then(response => {
       setCities(response.data);
       setLoading(false);
     });
+
+    return () => {
+      setCities([]);
+      setLoading(true);
+    };
   }, []);
 
   return (

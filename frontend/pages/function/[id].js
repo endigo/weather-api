@@ -1,20 +1,22 @@
 import React from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 import Head from "../../components/head";
 import SinglePage from "../../components/SinglePage";
 
-const FunctionDetail = ({ city }) => {
-  // const [city, setCity] = React.useState([]);
-  // const router = useRouter();
+const FunctionDetail = () => {
+  const [city, setCity] = React.useState(null);
+  const router = useRouter();
 
-  // React.useEffect(() => {
-  //   if (router.query.id) {
-  //     axios.get(`/api/cities/${router.query.id}`).then(response => {
-  //       setCity(response.data);
-  //       setLoading(false);
-  //     });
-  //   }
-  // }, [router.query.id]);
+  React.useEffect(() => {
+    if (router.query.id) {
+      axios.get(`/api/cities/${router.query.id}`).then(response => {
+        setCity(response.data);
+      });
+    }
+  }, [router.query.id]);
+
+  if (!city) return null;
 
   return (
     <>
@@ -24,15 +26,15 @@ const FunctionDetail = ({ city }) => {
   );
 };
 
-FunctionDetail.getInitialProps = async ctx => {
-  const { id } = ctx.query;
-  const rootUrl = process.env.ROOT_URL;
-  const city = await axios
-    .get(`${rootUrl}/api/cities/${id}`)
-    .then(response => response.data);
-  return {
-    city
-  };
-};
+// FunctionDetail.getInitialProps = async ctx => {
+//   const { id } = ctx.query;
+//   const rootUrl = process.env.ROOT_URL;
+//   const city = await axios
+//     .get(`${rootUrl}/api/cities/${id}`)
+//     .then(response => response.data);
+//   return {
+//     city
+//   };
+// };
 
 export default FunctionDetail;

@@ -17,7 +17,7 @@ export default function SinglePage({ city }) {
             <div className="pheno-temp">
               <div className="flex-row">
                 <h1>{todayWeather.TemperatureDay}˚</h1>
-                <embed src={`/pheno-svg/${phenoIcon}`} />
+                <img src={`/pheno-svg/${phenoIcon}`} />
               </div>
               <h4>{todayWeather.PhenoDay}</h4>
             </div>
@@ -35,18 +35,18 @@ export default function SinglePage({ city }) {
                   <li key={day.Date}>
                     <h3>{day.Date}</h3>
                     <div className="flex-row">
-                      <embed src={`/pheno-svg/day.svg`} />
+                      <img src={`/pheno-svg/day.svg`} />
                       <h1 style={{ lineHeight: "64px" }}>
                         {day.TemperatureDay}˚
                       </h1>
-                      <embed src={`/pheno-svg/${_phenoDayIcon}`} />
+                      <img src={`/pheno-svg/${_phenoDayIcon}`} />
                     </div>
                     <div className="flex-row">
-                      <embed src={`/pheno-svg/night.svg`} />
+                      <img src={`/pheno-svg/night.svg`} />
                       <h1 style={{ lineHeight: "64px" }}>
                         {day.TemperatureNight}˚
                       </h1>
-                      <embed src={`/pheno-svg/${_phenoNightIcon}`} />
+                      <img src={`/pheno-svg/${_phenoNightIcon}`} />
                     </div>
                   </li>
                 );

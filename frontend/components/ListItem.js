@@ -46,7 +46,7 @@ const ListItem = ({ city, href }) => {
             </h2>
             <div className="pheno-temp">
               <div>
-                <embed src={`/pheno-svg/${phenoIcon}`} />
+                <img src={`/pheno-svg/${phenoIcon}`} />
                 <h1>{todayWeather.TemperatureDay}˚</h1>
               </div>
               <h4>{todayWeather.PhenoDay}</h4>
@@ -93,7 +93,7 @@ const ListItem = ({ city, href }) => {
           line-height: 64px;
         }
 
-        .pheno-temp > div embed {
+        .pheno-temp > div img {
           width: 64px;
           height: 64px;
         }
